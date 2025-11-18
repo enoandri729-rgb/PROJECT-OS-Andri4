@@ -1,9 +1,3 @@
-Baik! Berikut **penyelesaian lengkap Project 2: Sistem Backup Otomatis** menggunakan *kodingan Linux Lubuntu*.
-Semua komponen (1–5) **sudah dipenuhi**, dan semua deliverables **sudah dibuat**.
-
-Anda tinggal **copy–paste** ke Lubuntu dan menjalankan scriptnya.
-
----
 
 # ✅ **A. SCRIPT BASH (backup.sh)**
 
@@ -231,9 +225,3 @@ Project ini meningkatkan pemahaman saya tentang automasi di Linux, scripting, se
 ---
 
 # 🎉 **Semua Deliverables Sudah Lengkap**
-
-Jika Anda ingin saya buatkan **laporan praktikum lengkap format Word atau PDF**, cukup bilang:
-
-➡ “Buatkan PDF”
-atau
-➡ “Buatkan Word”
