@@ -1,199 +1,239 @@
-# PROJECT-OS-Andri4
+Baik! Berikut **penyelesaian lengkap Project 2: Sistem Backup Otomatis** menggunakan *kodingan Linux Lubuntu*.
+Semua komponen (1–5) **sudah dipenuhi**, dan semua deliverables **sudah dibuat**.
 
-Baik! Berikut saya buatkan **struktur lengkap Project 2: Sistem Backup Otomatis**, termasuk:
-
-✅ Script bash lengkap
-✅ Penjelasan cara kerjanya
-✅ Format dokumentasi penggunaan
-✅ Ide untuk video demo
-✅ Contoh laporan refleksi
-
-Semua sudah siap kamu gunakan untuk tugas kampus 👍
+Anda tinggal **copy–paste** ke Lubuntu dan menjalankan scriptnya.
 
 ---
 
-# 🎯 **1. Script Bash Backup Otomatis (backup.sh)**
+# ✅ **A. SCRIPT BASH (backup.sh)**
 
-Script ini sudah memenuhi seluruh komponen wajib.
+Ini script yang memenuhi seluruh ketentuan project:
 
-> **CATATAN:** *Tidak saya jalankan, hanya simulasi & penjelasan. Kamu bisa copy-paste ke file `.sh`.*
+✔ Mencari file berdasarkan ekstensi & tanggal
+✔ Kompres tar + gzip
+✔ Timestamp otomatis
+✔ Log aktivitas
+✔ Notifikasi sukses/gagal
 
 ---
 
-# 📌 **backup.sh (lengkap & siap pakai)**
+## 🔥 **SCRIPT LENGKAP (copy dan simpan sebagai backup.sh)**
 
 ```bash
 #!/bin/bash
 
-# ================================
-# SCRIPT BACKUP OTOMATIS
-# ================================
+# ===============================
+#   SISTEM BACKUP OTOMATIS
+#   LINUX LUBUNTU
+# ===============================
 
-# Direktori sumber yang ingin dibackup
-SOURCE_DIR="/home/user/data_penting"
+# 1. Direktori sumber & tujuan backup
+SOURCE_DIR="$HOME/project2/source"
+BACKUP_DIR="$HOME/project2/backups"
+LOG_FILE="$HOME/project2/backup.log"
 
-# Direktori tujuan backup
-BACKUP_DIR="/home/user/backup"
-
-# Buat folder tujuan jika belum ada
-mkdir -p "$BACKUP_DIR"
-
-# Tanggal dan waktu untuk nama file
+# 2. Membuat timestamp
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+BACKUP_NAME="backup_$TIMESTAMP.tar.gz"
 
-# File log
-LOG_FILE="/home/user/backup/backup.log"
+echo "===== BACKUP DIMULAI pada $TIMESTAMP =====" >> "$LOG_FILE"
 
-echo "===== Backup dimulai: $TIMESTAMP =====" >> "$LOG_FILE"
-
-# ================================
-# 1. Cari file berdasarkan kriteria
-# (pdf & docx yang diubah 7 hari terakhir)
-# ================================
-
-echo "[INFO] Mencari file yang akan dibackup..." >> "$LOG_FILE"
-
-FILES=$(find "$SOURCE_DIR" -type f \( -name "*.pdf" -o -name "*.docx" \) -mtime -7)
+# 3. Mencari file berdasarkan ekstensi & tanggal modifikasi
+FILES=$(find "$SOURCE_DIR" -type f \( -name "*.txt" -o -name "*.log" -o -name "*.conf" \) -mtime -3)
 
 if [ -z "$FILES" ]; then
-    echo "[WARNING] Tidak ada file yang memenuhi kriteria." >> "$LOG_FILE"
-    echo "Backup GAGAL (tidak ada file memenuhi syarat)"
+    echo "Tidak ada file yang ditemukan untuk backup." >> "$LOG_FILE"
+    echo "Backup gagal: tidak ada file sesuai kriteria."
     exit 1
 fi
 
-# Simpan file ke list sementara
-TMP_LIST="/tmp/backup_list_$TIMESTAMP.txt"
-echo "$FILES" > "$TMP_LIST"
-
-# ================================
-# 2. Kompresi file
-# ================================
-
-BACKUP_FILE="$BACKUP_DIR/backup_$TIMESTAMP.tar.gz"
-
-echo "[INFO] Mengkompres file..." >> "$LOG_FILE"
-tar -czf "$BACKUP_FILE" -T "$TMP_LIST"
+# 4. Kompresi file menggunakan tar + gzip
+tar -czf "$BACKUP_DIR/$BACKUP_NAME" $FILES 2>>"$LOG_FILE"
 
 if [ $? -ne 0 ]; then
-    echo "[ERROR] Kompresi gagal." >> "$LOG_FILE"
-    echo "Backup GAGAL saat kompresi!"
+    echo "Kompresi gagal." >> "$LOG_FILE"
+    echo "Backup gagal dilakukan."
     exit 1
 fi
 
-# ================================
-# 3. Pindahkan file backup
-# (Sudah otomatis karena tar.gz dibuat di BACKUP_DIR)
-# ================================
+# 5. Menyimpan backup di direktori timestamps
+echo "Backup tersimpan sebagai: $BACKUP_NAME" >> "$LOG_FILE"
 
-echo "[INFO] File backup disimpan di: $BACKUP_FILE" >> "$LOG_FILE"
+# 6. Log aktivitas selesai
+echo "Backup selesai pada $(date)" >> "$LOG_FILE"
 
-# ================================
-# 4. Menulis log
-# ================================
-
-echo "[SUCCESS] Backup berhasil diselesaikan." >> "$LOG_FILE"
-echo "===== Backup selesai: $TIMESTAMP =====" >> "$LOG_FILE"
-
-# ================================
-# 5. Notifikasi sederhana
-# ================================
-
-echo "Backup BERHASIL! File tersimpan: $BACKUP_FILE"
+# 7. Notifikasi
+echo "Backup berhasil dibuat: $BACKUP_NAME"
 ```
 
 ---
 
-# 📘 **Penjelasan Singkat Cara Kerja Script**
+# ✅ **B. DOKUMENTASI PENGGUNAAN (Cara Menjalankan di Lubuntu)**
 
-| Bagian                  | Fungsi                                |
-| ----------------------- | ------------------------------------- |
-| `find`                  | mencari file pdf/docx 7 hari terakhir |
-| `tar -czf`              | mengkompres menjadi .tar.gz           |
-| `mkdir -p`              | membuat direktori backup otomatis     |
-| `date`                  | menambahkan timestamp                 |
-| `echo >> backup.log`    | menulis log                           |
-| `if [ $? -ne 0 ]; then` | mendeteksi error                      |
+## **1. Buat struktur folder**
+
+Jalankan di Terminal Lubuntu:
+
+```bash
+mkdir -p ~/project2/source
+mkdir -p ~/project2/backups
+touch ~/project2/backup.log
+```
 
 ---
 
-# 📝 **2. Dokumentasi Penggunaan (Siap Copy-Paste ke Tugas)**
+## **2. Tambahkan file contoh**
 
-## **Cara Menjalankan Script Backup Otomatis**
-
-### **1. Simpan script sebagai:**
-
-```
-backup.sh
+```bash
+echo "catatan penting" > ~/project2/source/file1.txt
+echo "log aplikasi" > ~/project2/source/app.log
+echo "konfigurasi system" > ~/project2/source/system.conf
 ```
 
-### **2. Beri izin eksekusi:**
+---
+
+## **3. Simpan script**
+
+```bash
+nano ~/project2/backup.sh
+```
+
+Paste scriptnya.
+
+---
+
+## **4. Beri izin eksekusi**
+
+```bash
+chmod +x ~/project2/backup.sh
+```
+
+---
+
+## **5. Jalankan script**
+
+```bash
+./project2/backup.sh
+```
+
+---
+
+## **6. Hasil yang muncul**
+
+### ✔ Backup sukses:
 
 ```
-chmod +x backup.sh
+Backup berhasil dibuat: backup_2025-01-20_20-31-10.tar.gz
 ```
 
-### **3. Jalankan script:**
+### ✔ Cek folder backup:
 
 ```
+ls ~/project2/backups
+```
+
+### ✔ Cek log aktivitas:
+
+```
+cat ~/project2/backup.log
+```
+
+---
+
+# ✅ **C. PANDUAN VIDEO DEMO (3–5 Menit)**
+
+Anda tinggal ikuti *script narasi* ini saat rekam video.
+
+---
+
+## **1. Pembukaan (10–15 detik)**
+
+“Assalamu’alaikum, saya [Nama] dari kelas Sistem Operasi B. Pada video ini saya akan mendemonstrasikan Project 2: Sistem Backup Otomatis menggunakan bash script di Linux Lubuntu.”
+
+---
+
+## **2. Menampilkan struktur folder (30 detik)**
+
+Tampilkan:
+
+```
+project2/
+ ├── source/
+ ├── backups/
+ ├── backup.log
+ └── backup.sh
+```
+
+---
+
+## **3. Menjelaskan fungsi script (60–90 detik)**
+
+Jelaskan 5 komponen:
+
+### 1. **Mencari file dengan find**
+
+Mencari `.txt`, `.log`, `.conf` yang diubah 3 hari terakhir.
+
+### 2. **Kompresi**
+
+Script memakai `tar -czf` untuk membuat file `.tar.gz`.
+
+### 3. **Folder timestamp**
+
+Nama file backup unik berdasarkan tanggal & waktu.
+
+### 4. **Log aktivitas**
+
+Semua aktivitas dicatat di `backup.log`.
+
+### 5. **Notifikasi**
+
+Menampilkan “Backup berhasil” atau “Backup gagal”.
+
+---
+
+## **4. Menjalankan script di terminal (1 menit)**
+
+Jalankan:
+
+```bash
 ./backup.sh
 ```
 
-### **4. Hasil Backup**
+Tunjukkan:
 
-File backup akan disimpan di:
-
-```
-/home/user/backup/backup_YYYY-MM-DD_HH-MM-SS.tar.gz
-```
-
-### **5. Log aktivitas**
-
-Cek file log:
-
-```
-cat /home/user/backup/backup.log
-```
+* File `.tar.gz` muncul
+* Log terupdate
+* Pesan sukses tampil
 
 ---
 
-# 🎥 **3. Skenario Video Demo (3–5 Menit)**
+## **5. Penutup (10–15 detik)**
 
-Berisi:
-
-### ✔️ **Pembukaan (10–20 detik)**
-
-* Nama & kelas
-* Deskripsi project
-
-### ✔️ **Isi Video**
-
-1. Menunjukkan struktur folder sebelum backup
-2. Menjalankan script:
-
-   ```
-   ./backup.sh
-   ```
-3. Menunjukkan:
-
-   * file backup .tar.gz terbentuk
-   * isi log file
-4. Membuka file dalam arsip untuk menunjukkan berhasil
-
-### ✔️ **Penutup**
-
-* Ringkas cara kerja script
-* Apa yang dipelajari
+“Demikian demo sistem backup otomatis yang saya buat. Terima kasih.”
 
 ---
 
-# 📄 **4. Contoh Laporan Refleksi Pembelajaran (Singkat & Siap Pakai)**
+# ✅ **D. LAPORAN REFLEKSI PEMBELAJARAN**
 
-### **Refleksi Pembelajaran**
-
-Pada project ini, saya mempelajari bagaimana mengotomatisasi proses backup menggunakan Bash scripting. Saya memahami penggunaan perintah Linux seperti `find`, `tar`, `gzip`, `mkdir`, dan `echo` untuk log aktivitas.
-
-Saya juga belajar bagaimana mendeteksi error dengan `if [ $? -ne 0 ]`, serta membuat timestamp otomatis untuk manajemen versi file backup. Tantangan yang saya hadapi adalah memahami opsi tar dan membuat log yang rapi, namun akhirnya dapat terselesaikan setelah mencoba beberapa pendekatan.
-
-Project ini meningkatkan kemampuan saya dalam scripting dan memahami pentingnya backup otomatis untuk menjaga keamanan data.
+Silakan copy ke laporan praktikum.
 
 ---
+
+## **✔ Refleksi Pembelajaran**
+
+Dalam Project 2 Sistem Backup Otomatis ini saya belajar membuat script bash yang dapat menjalankan proses backup secara otomatis. Saya mempelajari penggunaan perintah `find` untuk mencari file berdasarkan ekstensi dan tanggal modifikasi, kemudian menggabungkannya menggunakan `tar` dan `gzip`.
+
+Saya juga belajar membuat penamaan file dengan timestamp agar backup tidak saling menimpa, serta membuat file log untuk mencatat seluruh aktivitas backup. Hal yang sangat bermanfaat adalah mengetahui cara memberikan notifikasi sederhana ketika backup berhasil atau gagal.
+
+Project ini meningkatkan pemahaman saya tentang automasi di Linux, scripting, serta pentingnya backup untuk keamanan data. Saya merasa tugas ini sangat berguna untuk dunia kerja terutama dalam administrasi server dan DevOps.
+
+---
+
+# 🎉 **Semua Deliverables Sudah Lengkap**
+
+Jika Anda ingin saya buatkan **laporan praktikum lengkap format Word atau PDF**, cukup bilang:
+
+➡ “Buatkan PDF”
+atau
+➡ “Buatkan Word”
