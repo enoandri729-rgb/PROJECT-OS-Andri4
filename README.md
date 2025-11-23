@@ -89,39 +89,44 @@ https://drive.google.com/file/d/1zvlvOGI-MQJ6-crwo5Fmdmj6-509cTVw/view?usp=drive
 
 ## **3. Simpan script**
 
+---
 ```bash
 nano ~/project2/backup.sh
-
-#https://drive.google.com/file/d/1Csy9yLzutJQVv3mWXUprT8DaDZUD4TY1/view?usp=drivesdk
+```
+https://drive.google.com/file/d/1Csy9yLzutJQVv3mWXUprT8DaDZUD4TY1/view?usp=drivesdk
+---
 
 Paste scriptnya.
-
+https://drive.google.com/file/d/1zoMJKghMWz103JUTMMb4cR2RZSj0c_TB/view?usp=drivesdk
 ---
 
 ## **4. Beri izin eksekusi**
 
+---
 ```bash
 chmod +x ~/project2/backup.sh
 ```
-
+https://drive.google.com/file/d/1Csy9yLzutJQVv3mWXUprT8DaDZUD4TY1/view?usp=drivesdk
 ---
 
 ## **5. Jalankan script**
 
+---
 ```bash
 ./project2/backup.sh
 ```
-
+https://drive.google.com/file/d/1-EKWXbfIFChCb9rLdDqCUEaKah_xqq2e/view?usp=drivesdk
 ---
 
 ## **6. Hasil yang muncul**
 
 ### ✔ Backup sukses:
-
 ```
 Backup berhasil dibuat: backup_2025-01-20_20-31-10.tar.gz
 ```
-
+---
+https://drive.google.com/file/d/1-HXS4AgYaPafRa_aZdZuA0rRIWDuM8xa/view?usp=drivesdk
+---
 ### ✔ Cek folder backup:
 
 ```
@@ -130,6 +135,7 @@ ls ~/project2/backups
 
 ### ✔ Cek log aktivitas:
 
+---
 ```
 cat ~/project2/backup.log
 ```
