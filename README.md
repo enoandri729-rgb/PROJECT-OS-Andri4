@@ -60,7 +60,7 @@ echo "Backup selesai pada $(date)" >> "$LOG_FILE"
 # 7. Notifikasi
 echo "Backup berhasil dibuat: $BACKUP_NAME"
 ```
-
+https://drive.google.com/file/d/1zoMJKghMWz103JUTMMb4cR2RZSj0c_TB/view?usp=drivesdk
 ---
 
 # ✅ **B. DOKUMENTASI PENGGUNAAN (Cara Menjalankan di Lubuntu)**
@@ -74,7 +74,7 @@ mkdir -p ~/project2/source
 mkdir -p ~/project2/backups
 touch ~/project2/backup.log
 ```
-
+https://drive.google.com/file/d/1zubSQY1rU3j9fTXD9k3KIVWPjGQqtgxs/view?usp=drivesdk
 ---
 
 ## **2. Tambahkan file contoh**
@@ -84,14 +84,15 @@ echo "catatan penting" > ~/project2/source/file1.txt
 echo "log aplikasi" > ~/project2/source/app.log
 echo "konfigurasi system" > ~/project2/source/system.conf
 ```
-
+https://drive.google.com/file/d/1zvlvOGI-MQJ6-crwo5Fmdmj6-509cTVw/view?usp=drivesdk
 ---
 
 ## **3. Simpan script**
 
 ```bash
 nano ~/project2/backup.sh
-```
+
+#https://drive.google.com/file/d/1Csy9yLzutJQVv3mWXUprT8DaDZUD4TY1/view?usp=drivesdk
 
 Paste scriptnya.
 
